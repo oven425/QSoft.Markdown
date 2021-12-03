@@ -15,7 +15,7 @@ namespace QSoft.Markdown
             List<MarkdownBasic> datas = new List<MarkdownBasic>();
             StreamReader sr = new StreamReader(stream);
             string line = sr.ReadLine();
-            
+            Regex regex;
 
             return datas;
         }
