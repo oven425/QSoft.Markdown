@@ -8,8 +8,41 @@
         Loaded="Window_Loaded"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <RichTextBox x:Name="richtextbox">
-            
+        <RichTextBox x:Name="richtextbox" SpellCheck.IsEnabled="False">
+            <FlowDocument LineHeight="1">
+                <Paragraph FontSize="36" Foreground="#FF333333">
+                    Heading
+                </Paragraph>
+                <Paragraph>
+                    This is flow content and you can <Bold>edit me!</Bold>
+                </Paragraph>
+                <Paragraph>
+                    <Hyperlink IsEnabled="True" NavigateUri="https://www.yahoo.com.tw">yahoo</Hyperlink>
+                </Paragraph>
+                <BlockUIContainer BorderThickness="0,1,0,0" Margin="0,20,0,20">
+                    <BlockUIContainer.BorderBrush>
+                        <SolidColorBrush Color="#FFCCCCCC"></SolidColorBrush>
+                    </BlockUIContainer.BorderBrush>
+
+                </BlockUIContainer>
+                <List MarkerOffset="25" StartIndex="5">
+                    <ListItem>
+                        <Paragraph>
+                            It's newer and thereby more in tune with current standards
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Microsoft is using it for a lot of new applications, e.g. Visual Studio
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            It's more flexible, so you can do more things without having to write or buy new controls
+                        </Paragraph>
+                    </ListItem>
+                </List>
+            </FlowDocument>
         </RichTextBox>
     </Grid>
 </Window>
