@@ -43,6 +43,15 @@ namespace WpfApp1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            var heading = File.OpenRead("../../../md sample/heading.md");
+            MarkdownReader mr = new MarkdownReader();
+            var mds = mr.Open(heading);
+            foreach(var oo in mds)
+            {
+                oo.Heading(this.richtextbox.Document);
+            }
+            return;
+
             Regex m_hr1 = new Regex(@"^-{3}$");
             Regex m_hr2 = new Regex(@"^[*]{3}$");
             Regex m_hr3 = new Regex(@"^_{3}$");
@@ -65,8 +74,8 @@ namespace WpfApp1
             string title1 = "# This is an apple";
             //Regex regex = new Regex(@"#+ (.+)");
             //Regex regex = new Regex(@"(?<=# )(?<heading>.+)");
-            Regex regex = new Regex(@"(?<count>#{1} )(?<heading>.+)");
-            var match1 = m_Heading1.Match("# This is an apple");
+            Regex regex = new Regex(@"(?<size>#{1,6})\s{1}(?<heading>.+)");
+            var match1 = regex.Match("####  This is an apple");
             if (match1.Success == true)
             {
                 System.Diagnostics.Trace.WriteLine($"{match1.Value}");
@@ -111,63 +120,6 @@ namespace WpfApp1
 
     }
 
-    public static class FlowDocumentEx
-    {
-        public static void hr(this FlowDocument doc)
-        {
-            BlockUIContainer hr = new BlockUIContainer();
-            hr.BorderThickness = new Thickness(0, 1, 0, 0);
-            hr.BorderBrush = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
-            hr.Margin = new Thickness(0, 20,0,20);
-            doc.Blocks.Add(hr);
-        }
-        public static void H1(this FlowDocument doc, string headeing)
-        {
-            Paragraph p = new Paragraph(new Run(headeing));
-            p.FontSize = 36;
-            p.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
-            doc.Blocks.Add(p);
-        }
-
-        public static void H2(this FlowDocument doc, string headeing)
-        {
-            Paragraph p = new Paragraph(new Run(headeing));
-            p.FontSize = 30;
-            p.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
-            doc.Blocks.Add(p);
-        }
-
-        public static void H3(this FlowDocument doc, string headeing)
-        {
-            Paragraph p = new Paragraph(new Run(headeing));
-            p.FontSize = 24;
-            p.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
-            doc.Blocks.Add(p);
-        }
-
-        public static void H4(this FlowDocument doc, string headeing)
-        {
-            Paragraph p = new Paragraph(new Run(headeing));
-            p.FontSize = 18;
-            p.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
-            doc.Blocks.Add(p);
-        }
-
-        public static void H5(this FlowDocument doc, string headeing)
-        {
-            Paragraph p = new Paragraph(new Run(headeing));
-            p.FontSize = 14;
-            p.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
-            doc.Blocks.Add(p);
-        }
-
-        public static void H6(this FlowDocument doc, string headeing)
-        {
-            Paragraph p = new Paragraph(new Run(headeing));
-            p.FontSize = 12;
-            p.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
-            doc.Blocks.Add(p);
-        }
-    }
+    
 
 }
