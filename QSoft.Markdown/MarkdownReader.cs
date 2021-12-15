@@ -10,8 +10,8 @@ namespace QSoft.Markdown
 {
     public class MarkdownReader
     {
-        Regex m_Heading = new Regex(@"(?<size>#{1,6})\s{1}(?<heading>.+)", RegexOptions.Compiled);
-
+        Regex m_Heading = new Regex(@"^(?<size>#{1,6}?)\s{1}(?<heading>.+)?$", RegexOptions.Compiled);
+        //^(?<size>#{1,6}?) (?<heading>.+)?$
         //Regex m_hr1 = new Regex(@"^-{3}$");
         //Regex m_hr2 = new Regex(@"^[*]{3}$");
         //Regex m_hr3 = new Regex(@"^_{3}$");

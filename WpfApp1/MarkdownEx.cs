@@ -25,7 +25,15 @@ namespace WpfApp1
 
         public static void Heading(this MarkdownBasic src, FlowDocument doc)
         {
-            doc.p(src.Content);
+            if(src is Heading)
+            {
+                (src as Heading)?.Heading(doc);
+            }
+            else
+            {
+                doc.p(src.Content);
+            }
+            
         }
     }
 }

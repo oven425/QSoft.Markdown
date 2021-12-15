@@ -24,12 +24,6 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        Regex m_Heading1 = new Regex(@"(?<count>#{1} )(?<heading>.+)");
-        Regex m_Heading2 = new Regex(@"(?<count>#{2} )(?<heading>.+)");
-        Regex m_Heading3 = new Regex(@"(?<count>#{3} )(?<heading>.+)");
-        Regex m_Heading4 = new Regex(@"(?<count>#{4} )(?<heading>.+)");
-        Regex m_Heading5 = new Regex(@"(?<count>#{5} )(?<heading>.+)");
-        Regex m_Heading6 = new Regex(@"(?<count>#{6} )(?<heading>.+)");
         public MainWindow()
         {
             InitializeComponent();
@@ -43,6 +37,63 @@ namespace WpfApp1
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
+            this.richtextbox.Document.LineHeight = 1;
+
+            var url = $@"www.xxx.com/group///{ Guid.NewGuid() }/report/{ Guid.NewGuid() }";
+
+            var groupRegex = new Regex(@"(?<=group[/]{1,})(.*?)(?=/report)");
+            var reportRegex = new Regex(@"(?<=report/)(.*)");
+
+
+            Console.WriteLine(url);
+            Console.WriteLine(groupRegex.Match(url).Value);
+            Console.WriteLine(reportRegex.Match(url).Value);
+
+
+            //Regex regex = new Regex("(?<=<<).*?(?=>>)");
+
+            //foreach (Match match in regex.Matches( "this is a test for <<<bob>>> who like <<<books>>"))
+            //{
+            //    Console.WriteLine(match.Value);
+            //}
+
+            Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+            // Define a test string.
+            string text = "The the quick brown fox  fox jumps over the lazy dog dog.";
+
+            // Find matches.
+            MatchCollection matches = rx.Matches(text);
+
+            // Report the number of matches found.
+            Console.WriteLine("{0} matches found in:\n   {1}",
+                              matches.Count,
+                              text);
+
+            // Report on each match.
+            foreach (Match match in matches)
+            {
+                GroupCollection groups = match.Groups;
+                Console.WriteLine("'{0}' repeated at positions {1} and {2}",
+                                  groups["word"].Value,
+                                  groups[0].Index,
+                                  groups[1].Index);
+            }
+
+
+            string pattern_bold1 = @"\b[*]{2}\w+[*]{2}\b";
+            string pattern_bold = @"\b[_]{2}\w+[_]{2}\b";
+            string pattern_italic = @"\b[_]{2}\w+[_]{2}\b";
+            Regex rgx = new Regex(pattern_bold1);
+            string sentence = "__Who__ **eswrites** __these__ __notes?__";
+
+            foreach (Match match in rgx.Matches(sentence))
+            {
+                Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
+            }
+                
+
             var heading = File.OpenRead("../../../md sample/heading.md");
             MarkdownReader mr = new MarkdownReader();
             var mds = mr.Open(heading);
@@ -74,45 +125,8 @@ namespace WpfApp1
             string title1 = "# This is an apple";
             //Regex regex = new Regex(@"#+ (.+)");
             //Regex regex = new Regex(@"(?<=# )(?<heading>.+)");
-            Regex regex = new Regex(@"(?<size>#{1,6})\s{1}(?<heading>.+)");
-            var match1 = regex.Match("####  This is an apple");
-            if (match1.Success == true)
-            {
-                System.Diagnostics.Trace.WriteLine($"{match1.Value}");
-                this.richtextbox.Document.H1(match1.Groups["heading"].Value);
-            }
-            var match2 = m_Heading2.Match("## This is an apple");
-            if (match2.Success == true)
-            {
-                System.Diagnostics.Trace.WriteLine($"{match2.Value}");
-                this.richtextbox.Document.H2(match1.Groups["heading"].Value);
-            }
-            var match3 = m_Heading3.Match("### This is an apple");
-            if (match3.Success == true)
-            {
-                System.Diagnostics.Trace.WriteLine($"{match3.Value}");
-                this.richtextbox.Document.H3(match1.Groups["heading"].Value);
-            }
-            var match4 = m_Heading4.Match("#### This is an apple");
-            if (match4.Success == true)
-            {
-                System.Diagnostics.Trace.WriteLine($"{match4.Value}");
-                this.richtextbox.Document.H4(match1.Groups["heading"].Value);
-            }
-            var match5 = m_Heading5.Match("##### This is an apple");
-            if (match5.Success == true)
-            {
-                System.Diagnostics.Trace.WriteLine($"{match5.Value}");
-                this.richtextbox.Document.H5(match1.Groups["heading"].Value);
-            }
-            var match6 = m_Heading6.Match("###### This is an apple");
-            if (match6.Success == true)
-            {
-                System.Diagnostics.Trace.WriteLine($"{match6.Value}");
-                this.richtextbox.Document.H6(match1.Groups["heading"].Value);
-            }
 
-            this.richtextbox.Document.LineHeight = 1;
+            
             
         }
 
