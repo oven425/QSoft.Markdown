@@ -35,10 +35,31 @@ namespace WpfApp1
 
         //--- *** ___ are split line
 
+        public string GetValue(string str, string s, string e)
+        {
+            //string str1 = $"(?<=({s}))[.\\s\\S]*?(?=({e}))";
+            string str1 = $"(?<=([{s}]))[.\\s\\S]*?(?=({e}))";
+
+            Regex rg = new Regex(str1);
+
+            //Regex rg = new Regex("(?<=(" + s + "))[.\\s\\S]*?(?=(" + e + "))", RegexOptions.Multiline | RegexOptions.Singleline);
+            return rg.Match(str).Value;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //var mmi = GetValue("__AA__", "__", "__");
+            //this.richtextbox.Document.LineHeight = 1;
 
-            this.richtextbox.Document.LineHeight = 1;
+
+            string str1 = $"(?<=(__))[.\\s\\S]*?(?=(__))";
+
+            Regex rg = new Regex(str1);
+            var mms = rg.Matches("__aa__ ___aba___ __b_ _c__ _d_");
+            foreach(Match oo in mms)
+            {
+                System.Diagnostics.Trace.WriteLine(oo.Value);
+            }
 
             var url = $@"www.xxx.com/group///{ Guid.NewGuid() }/report/{ Guid.NewGuid() }";
 
@@ -51,35 +72,14 @@ namespace WpfApp1
             Console.WriteLine(reportRegex.Match(url).Value);
 
 
-            //Regex regex = new Regex("(?<=<<).*?(?=>>)");
+            Regex regex = new Regex("(?<=<<).*?(?=>>)");
 
-            //foreach (Match match in regex.Matches( "this is a test for <<<bob>>> who like <<<books>>"))
-            //{
-            //    Console.WriteLine(match.Value);
-            //}
-
-            Regex rx = new Regex(@"\b(?<word>\w+)\s+(\k<word>)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-            // Define a test string.
-            string text = "The the quick brown fox  fox jumps over the lazy dog dog.";
-
-            // Find matches.
-            MatchCollection matches = rx.Matches(text);
-
-            // Report the number of matches found.
-            Console.WriteLine("{0} matches found in:\n   {1}",
-                              matches.Count,
-                              text);
-
-            // Report on each match.
-            foreach (Match match in matches)
+            foreach (Match match in regex.Matches("this is a test for <<<bob>>> who like <<<books>>"))
             {
-                GroupCollection groups = match.Groups;
-                Console.WriteLine("'{0}' repeated at positions {1} and {2}",
-                                  groups["word"].Value,
-                                  groups[0].Index,
-                                  groups[1].Index);
+                Console.WriteLine(match.Value);
             }
+
+
 
 
             string pattern_bold1 = @"\b[*]{2}\w+[*]{2}\b";
