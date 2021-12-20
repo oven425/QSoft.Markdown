@@ -20,6 +20,26 @@ namespace WpfApp1
             doc.Blocks.Add(hr);
         }
 
+        public static void p(this FlowDocument doc, List<(string content, bool bold, bool italic)> datas)
+        {
+            Paragraph p = new Paragraph();
+            foreach(var oo in datas)
+            {
+                var run = new Run(oo.content);
+                if(oo.bold == true)
+                {
+                    run.FontWeight = FontWeights.Bold;
+                }
+                if(oo.italic == true)
+                {
+                    run.FontStyle = FontStyles.Italic;
+                }
+                p.Inlines.Add(run);
+            }
+            p.Foreground = new SolidColorBrush(Color.FromRgb(51, 51, 51));
+            doc.Blocks.Add(p);
+        }
+
         public static void p(this FlowDocument doc, string content)
         {
             Paragraph p = new Paragraph(new Run(content));

@@ -35,52 +35,31 @@ namespace WpfApp1
 
         //--- *** ___ are split line
 
-        public string GetValue(string str, string s, string e)
-        {
-            //string str1 = $"(?<=({s}))[.\\s\\S]*?(?=({e}))";
-            string str1 = $"(?<=([{s}]))[.\\s\\S]*?(?=({e}))";
 
-            Regex rg = new Regex(str1);
-
-            //Regex rg = new Regex("(?<=(" + s + "))[.\\s\\S]*?(?=(" + e + "))", RegexOptions.Multiline | RegexOptions.Singleline);
-            return rg.Match(str).Value;
-        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //var mmi = GetValue("__AA__", "__", "__");
-            //this.richtextbox.Document.LineHeight = 1;
+            this.richtextbox.Document.LineHeight = 1;
 
-
-            string str1 = $"(?<=(__))[.\\s\\S]*?(?=(__))";
-
-            Regex rg = new Regex(str1);
-            var mms = rg.Matches("__aa__ ___aba___ __b_ _c__ _d_");
-            foreach(Match oo in mms)
+            //string test = "///aa/bird///cat/";
+            //Regex rg = new Regex("([/]{1,2})(?<name>.*?)([/]{1,2})");
+            string test = "***aa****bb*";
+            Regex rg = new Regex("(?<begin>[*]{1,3})(?<value>.*?)(?<end>[*]{1,3})");
+            var matchs = rg.Matches(test);
+            foreach(Match match in matchs)
             {
-                System.Diagnostics.Trace.WriteLine(oo.Value);
+                System.Diagnostics.Trace.WriteLine($"{match.Groups["begin"].Value}");
+                System.Diagnostics.Trace.WriteLine($"{match.Groups["value"].Value}");
+                System.Diagnostics.Trace.WriteLine($"{match.Groups["end"].Value}");
             }
 
-            var url = $@"www.xxx.com/group///{ Guid.NewGuid() }/report/{ Guid.NewGuid() }";
-
-            var groupRegex = new Regex(@"(?<=group[/]{1,})(.*?)(?=/report)");
-            var reportRegex = new Regex(@"(?<=report/)(.*)");
-
-
-            Console.WriteLine(url);
-            Console.WriteLine(groupRegex.Match(url).Value);
-            Console.WriteLine(reportRegex.Match(url).Value);
-
-
-            Regex regex = new Regex("(?<=<<).*?(?=>>)");
-
-            foreach (Match match in regex.Matches("this is a test for <<<bob>>> who like <<<books>>"))
+            this.richtextbox.Document.p(new List<(string content, bool bold, bool italic)>()
             {
-                Console.WriteLine(match.Value);
-            }
-
-
-
+                (content:"FontWeight Bold", bold:true, italic:false),
+                (content:"FontStyle Italic", bold:false, italic:true),
+                (content:"FontWeight Bold FontStyle Italic", bold:true, italic:true),
+            });
+            return;
 
             string pattern_bold1 = @"\b[*]{2}\w+[*]{2}\b";
             string pattern_bold = @"\b[_]{2}\w+[_]{2}\b";

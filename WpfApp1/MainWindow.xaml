@@ -19,6 +19,12 @@
                 <Paragraph>
                     <Hyperlink IsEnabled="True" NavigateUri="https://www.yahoo.com.tw">yahoo</Hyperlink>
                 </Paragraph>
+                <Paragraph>
+                    <Run FontWeight="Bold">FontWeight Bold</Run>
+                    <Run FontStyle="Italic">FontStyle Italic</Run>
+                    <Run FontWeight="Bold" FontStyle="Italic">FontWeight Bold FontStyle Italic</Run>
+                    <Run TextDecorations="Underline">TextDecorations Underline</Run>
+                </Paragraph>
                 <BlockUIContainer BorderThickness="0,1,0,0" Margin="0,20,0,20">
                     <BlockUIContainer.BorderBrush>
                         <SolidColorBrush Color="#FFCCCCCC"></SolidColorBrush>

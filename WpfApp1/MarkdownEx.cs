@@ -23,7 +23,7 @@ namespace WpfApp1
             }
         }
 
-        public static void Heading(this MarkdownBasic src, FlowDocument doc)
+        public static void Heading(this MarkdownString src, FlowDocument doc)
         {
             if(src is Heading)
             {
@@ -33,7 +33,6 @@ namespace WpfApp1
             {
                 doc.p(src.Content);
             }
-            
         }
     }
 }

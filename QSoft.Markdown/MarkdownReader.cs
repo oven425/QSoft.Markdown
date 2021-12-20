@@ -11,7 +11,6 @@ namespace QSoft.Markdown
     public class MarkdownReader
     {
         Regex m_Heading = new Regex(@"^(?<size>#{1,6}?)\s{1}(?<heading>.+)?$", RegexOptions.Compiled);
-        //^(?<size>#{1,6}?) (?<heading>.+)?$
         //Regex m_hr1 = new Regex(@"^-{3}$");
         //Regex m_hr2 = new Regex(@"^[*]{3}$");
         //Regex m_hr3 = new Regex(@"^_{3}$");
@@ -20,9 +19,9 @@ namespace QSoft.Markdown
         {
 
         }
-        public List<MarkdownBasic> Open(Stream stream)
+        public List<MarkdownString> Open(Stream stream)
         {
-            List<MarkdownBasic> datas = new List<MarkdownBasic>();
+            List<MarkdownString> datas = new List<MarkdownString>();
             StreamReader sr = new StreamReader(stream);
             while(sr.EndOfStream == false)
             {
@@ -38,7 +37,7 @@ namespace QSoft.Markdown
                 }
                 else
                 {
-                    MarkdownBasic basic = new MarkdownBasic();
+                    MarkdownString basic = new MarkdownString();
                     basic.Content = line;
                     datas.Add(basic);
                 }
@@ -48,12 +47,14 @@ namespace QSoft.Markdown
         }
     }
 
-    public class MarkdownBasic
+    public class MarkdownString
     {
+        public bool IsBold { set; get; }
+        public bool IsItalic { set; get; }
         public string Content { set; get; }
     }
 
-    public class Heading: MarkdownBasic
+    public class Heading: MarkdownString
     {
         public int Size { set; get; }
     }
