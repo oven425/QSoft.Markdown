@@ -23,11 +23,15 @@ namespace WpfApp1
             }
         }
 
-        public static void Heading(this MarkdownString src, FlowDocument doc)
+        public static void Heading(this MarkdownBasic src, FlowDocument doc)
         {
             if(src is Heading)
             {
                 (src as Heading)?.Heading(doc);
+            }
+            else if(src is BreakLine)
+            {
+                doc.BreakLine();
             }
             else
             {

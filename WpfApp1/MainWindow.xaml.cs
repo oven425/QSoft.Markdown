@@ -40,26 +40,35 @@ namespace WpfApp1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.richtextbox.Document.LineHeight = 1;
-
-            //string test = "///aa/bird///cat/";
-            //Regex rg = new Regex("([/]{1,2})(?<name>.*?)([/]{1,2})");
-            string test = "***aa****bb*";
-            Regex rg = new Regex("(?<begin>[*]{1,3})(?<value>.*?)(?<end>[*]{1,3})");
-            var matchs = rg.Matches(test);
+            string text = @"abcdegf  
+ghijk
+yui
+aa";
+            Regex br = new Regex(@"(?<a>.*?)[ ]{2}\r\n(.*?)");
+            var matchs = br.Matches(text);
             foreach(Match match in matchs)
             {
-                System.Diagnostics.Trace.WriteLine($"{match.Groups["begin"].Value}");
-                System.Diagnostics.Trace.WriteLine($"{match.Groups["value"].Value}");
-                System.Diagnostics.Trace.WriteLine($"{match.Groups["end"].Value}");
+                System.Diagnostics.Trace.WriteLine(match.Value);
             }
-
-            this.richtextbox.Document.p(new List<(string content, bool bold, bool italic)>()
-            {
-                (content:"FontWeight Bold", bold:true, italic:false),
-                (content:"FontStyle Italic", bold:false, italic:true),
-                (content:"FontWeight Bold FontStyle Italic", bold:true, italic:true),
-            });
+            var splts = Regex.Split(text, @"(\s{2})", RegexOptions.Compiled);
             return;
+            //string test = "***aa****bb*";
+            //Regex rg = new Regex("(?<begin>[*]{1,3})(?<value>.*?)(?<end>[*]{1,3})");
+            //var matchs = rg.Matches(test);
+            //foreach(Match match in matchs)
+            //{
+            //    System.Diagnostics.Trace.WriteLine($"{match.Groups["begin"].Value}");
+            //    System.Diagnostics.Trace.WriteLine($"{match.Groups["value"].Value}");
+            //    System.Diagnostics.Trace.WriteLine($"{match.Groups["end"].Value}");
+            //}
+
+            //this.richtextbox.Document.p(new List<(string content, bool bold, bool italic)>()
+            //{
+            //    (content:"FontWeight Bold", bold:true, italic:false),
+            //    (content:"FontStyle Italic", bold:false, italic:true),
+            //    (content:"FontWeight Bold FontStyle Italic", bold:true, italic:true),
+            //});
+            //return;
 
             string pattern_bold1 = @"\b[*]{2}\w+[*]{2}\b";
             string pattern_bold = @"\b[_]{2}\w+[_]{2}\b";

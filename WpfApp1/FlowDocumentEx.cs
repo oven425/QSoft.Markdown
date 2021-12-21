@@ -47,6 +47,11 @@ namespace WpfApp1
             doc.Blocks.Add(p);
         }
 
+        public static void BreakLine(this FlowDocument doc)
+        {
+            doc.Blocks.Add(new Paragraph());
+        }
+
         public static void H1(this FlowDocument doc, string headeing)
         {
             Paragraph p = new Paragraph(new Run(headeing));

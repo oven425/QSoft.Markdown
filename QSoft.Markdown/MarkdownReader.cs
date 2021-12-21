@@ -19,9 +19,9 @@ namespace QSoft.Markdown
         {
 
         }
-        public List<MarkdownString> Open(Stream stream)
+        public List<MarkdownBasic> Open(Stream stream)
         {
-            List<MarkdownString> datas = new List<MarkdownString>();
+            List<MarkdownBasic> datas = new List<MarkdownBasic>();
             StreamReader sr = new StreamReader(stream);
             while(sr.EndOfStream == false)
             {
@@ -47,14 +47,24 @@ namespace QSoft.Markdown
         }
     }
 
-    public class MarkdownString
+    public class MarkdownBasic
     {
-        public bool IsBold { set; get; }
-        public bool IsItalic { set; get; }
         public string Content { set; get; }
     }
 
-    public class Heading: MarkdownString
+    public class MarkdownString: MarkdownBasic
+    {
+        public bool IsBold { set; get; }
+        public bool IsItalic { set; get; }
+        
+    }
+
+    public class BreakLine: MarkdownBasic
+    {
+
+    }
+
+    public class Heading: MarkdownBasic
     {
         public int Size { set; get; }
     }
