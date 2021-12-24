@@ -42,14 +42,39 @@ namespace WpfApp1
             this.richtextbox.Document.LineHeight = 1;
             string text = @"abcdegf  
 ghijk
-yui
+yui  
 aa";
+            List<(int begin, int end)> ll = new List<(int begin, int end)>();
             Regex br = new Regex(@"(?<a>.*?)[ ]{2}\r\n(.*?)");
             var matchs = br.Matches(text);
             foreach(Match match in matchs)
             {
+                var item = match.Groups["a"];
+                if (item.Index != 0)
+                {
+                    if(ll.Count>0)
+                    {
+                        ll.Add((ll.Last().end, item.Index));
+                    }
+                    ll.Add((item.Index, item.Index+item.Length));
+                }
+                else
+                {
+                    ll.Add((0, item.Index + item.Length));
+                }
                 System.Diagnostics.Trace.WriteLine(match.Value);
             }
+            if(ll.Last().end != text.Length)
+            {
+                ll.Add((ll.Last().end, text.Length));
+            }
+
+            StringBuilder strb = new StringBuilder();
+            foreach(var oo in ll)
+            {
+                strb.AppendLine(text.Substring(oo.begin, oo.end - oo.begin));
+            }
+            System.Diagnostics.Trace.WriteLine(strb.ToString());
             var splts = Regex.Split(text, @"(\s{2})", RegexOptions.Compiled);
             return;
             //string test = "***aa****bb*";
