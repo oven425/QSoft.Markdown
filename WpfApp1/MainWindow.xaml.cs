@@ -41,38 +41,40 @@ namespace WpfApp1
         {
             this.richtextbox.Document.LineHeight = 1;
             string text = @"abcdegf  
-ghijk
-yui  
+ghijk  
+yui
 aa";
             List<(int begin, int end)> ll = new List<(int begin, int end)>();
-            Regex br = new Regex(@"(?<a>.*?)[ ]{2}\r\n(.*?)");
+            //Regex br = new Regex(@"^(?<a>.*)\s{2}\r\n(.*?)");
+            Regex br = new Regex(@"(?<a>.*)\b\s{2}\r\n");
+
             var matchs = br.Matches(text);
+            int lastend = 0;
             foreach(Match match in matchs)
             {
                 var item = match.Groups["a"];
-                if (item.Index != 0)
+                System.Diagnostics.Trace.WriteLine($"index:{item.Index} length:{item.Length}");
+                if(ll.Count == 0)
                 {
-                    if(ll.Count>0)
-                    {
-                        ll.Add((ll.Last().end, item.Index));
-                    }
-                    ll.Add((item.Index, item.Index+item.Length));
+                    ll.Add((0, item.Length));
                 }
                 else
                 {
-                    ll.Add((0, item.Index + item.Length));
+                    ll.Add((item.Index,  +item.Index+item.Length));
                 }
-                System.Diagnostics.Trace.WriteLine(match.Value);
+                lastend = match.Index + match.Length;
             }
-            if(ll.Last().end != text.Length)
+            if(lastend != text.Length)
             {
-                ll.Add((ll.Last().end, text.Length));
+                ll.Add((lastend, text.Length));
             }
 
             StringBuilder strb = new StringBuilder();
             foreach(var oo in ll)
             {
-                strb.AppendLine(text.Substring(oo.begin, oo.end - oo.begin));
+                string s = text.Substring(oo.begin, oo.end - oo.begin);
+                s = s.Replace("\r\n", "");
+                strb.AppendLine(s);
             }
             System.Diagnostics.Trace.WriteLine(strb.ToString());
             var splts = Regex.Split(text, @"(\s{2})", RegexOptions.Compiled);
