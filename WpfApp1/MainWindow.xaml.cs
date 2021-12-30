@@ -40,19 +40,29 @@ namespace WpfApp1
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             this.richtextbox.Document.LineHeight = 1;
-            string text = @"abcdegf  
-ghijk  
-yui
-aa";
-            List<(int begin, int end)> ll = new List<(int begin, int end)>();
-            //Regex br = new Regex(@"^(?<a>.*)\s{2}\r\n(.*?)");
-            Regex br = new Regex(@"(?<a>.*)\b\s{2}\r\n");
+            //            string text = @"abcdegf  
+            //ghijk  
+            //yui
+            //aa";
 
+            //            string text = @"aa
+
+            //bb
+
+            //cc";
+            string text = @"aa  
+bb
+
+cc";
+            List<(int begin, int end)> ll = new List<(int begin, int end)>();
+            //Regex br = new Regex(@"(?<a1>.*)\b\s{2}\r\n");
+            //Regex br = new Regex(@"(?<a2>\B\r\n\.*)");
+            Regex br = new Regex(@"((?<a1>.*)\b\s{2}\r\n)|(?<a2>\B\r\n\.*)");
             var matchs = br.Matches(text);
             int lastend = 0;
             foreach(Match match in matchs)
             {
-                var item = match.Groups["a"];
+                var item = match.Groups["a1"];
                 System.Diagnostics.Trace.WriteLine($"index:{item.Index} length:{item.Length}");
                 if(ll.Count == 0)
                 {
