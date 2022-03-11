@@ -14,7 +14,12 @@ namespace QSoft.Markdown
         //Regex m_hr1 = new Regex(@"^-{3}$");
         //Regex m_hr2 = new Regex(@"^[*]{3}$");
         //Regex m_hr3 = new Regex(@"^_{3}$");
-        List<Regex> m_Regexs = new List<Regex>();
+
+        Regex m_HorizontalRules1 = new Regex("^-{3,}$");
+        Regex m_HorizontalRules2 = new Regex("^[*]{3,}$");
+        Regex m_HorizontalRules3 = new Regex("^_{3,}$");
+        Regex m_Break1 = new Regex("  $");
+        Regex m_Break2 = new Regex(" {1,}^$");
         public MarkdownReader()
         {
 
@@ -23,26 +28,57 @@ namespace QSoft.Markdown
         {
             List<MarkdownBasic> datas = new List<MarkdownBasic>();
             StreamReader sr = new StreamReader(stream);
-            while(sr.EndOfStream == false)
+            MarkdownBasic basic = new MarkdownBasic();
+            while (sr.Peek() >= 0)
             {
                 string line = sr.ReadLine();
                 Match match = null;
                 match = m_Heading.Match(line);
                 if (match.Success)
                 {
+                    if (string.IsNullOrEmpty(basic.Content) == false)
+                    {
+                        datas.Add(basic);
+                        basic = new MarkdownBasic();
+                    }
                     Heading heaging = new Heading();
                     heaging.Size = match.Groups["size"].Value.Length;
                     heaging.Content = match.Groups["heading"].Value;
                     datas.Add(heaging);
                 }
+                else if(this.m_HorizontalRules1.IsMatch(line) == true)
+                {
+                    datas.Add(new HorizontalRule());
+                }
+                else if (this.m_HorizontalRules2.IsMatch(line) == true)
+                {
+                    datas.Add(new HorizontalRule());
+                }
+                else if (this.m_HorizontalRules3.IsMatch(line) == true)
+                {
+                    datas.Add(new HorizontalRule());
+                }
                 else
                 {
-                    MarkdownString basic = new MarkdownString();
-                    basic.Content = line;
-                    datas.Add(basic);
+                    basic.Content = basic.Content+line;
+                    if(this.m_Break1.IsMatch(line) == true)
+                    {
+                        datas.Add(basic);
+                        basic = new MarkdownBasic();
+                    }
+                    else if(line.Length == 0 || this.m_Break2.IsMatch(line)==true)
+                    {
+                        datas.Add(basic);
+                        basic = new MarkdownBasic();
+                        datas.Add(basic);
+                        basic = new MarkdownBasic();
+                    }
                 }
             }
-            
+            if(string.IsNullOrEmpty(basic.Content) == false)
+            {
+                datas.Add(basic);
+            }
             return datas;
         }
     }
@@ -52,14 +88,7 @@ namespace QSoft.Markdown
         public string Content { set; get; }
     }
 
-    public class MarkdownString: MarkdownBasic
-    {
-        public bool IsBold { set; get; }
-        public bool IsItalic { set; get; }
-        
-    }
-
-    public class BreakLine: MarkdownBasic
+    public class HorizontalRule : MarkdownBasic
     {
 
     }

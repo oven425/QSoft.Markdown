@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace WpfApp1
+namespace QSoft.Markdown.WPF
 {
     public static class FlowDocumentEx
     {
@@ -17,20 +17,21 @@ namespace WpfApp1
             hr.BorderThickness = new Thickness(0, 1, 0, 0);
             hr.BorderBrush = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
             hr.Margin = new Thickness(0, 20, 0, 20);
+            
             doc.Blocks.Add(hr);
         }
 
         public static void p(this FlowDocument doc, List<(string content, bool bold, bool italic)> datas)
         {
             Paragraph p = new Paragraph();
-            foreach(var oo in datas)
+            foreach (var oo in datas)
             {
                 var run = new Run(oo.content);
-                if(oo.bold == true)
+                if (oo.bold == true)
                 {
                     run.FontWeight = FontWeights.Bold;
                 }
-                if(oo.italic == true)
+                if (oo.italic == true)
                 {
                     run.FontStyle = FontStyles.Italic;
                 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
+using QSoft.Markdown.WPF;
 
 namespace WpfApp1
 {
@@ -23,15 +24,19 @@ namespace WpfApp1
             }
         }
 
-        public static void Heading(this MarkdownBasic src, FlowDocument doc)
+        public static void ToFlowDocument(this MarkdownBasic src, FlowDocument doc)
         {
             if(src is Heading)
             {
                 (src as Heading)?.Heading(doc);
             }
-            else if(src is BreakLine)
+            else if(src is HorizontalRule)
             {
-                doc.BreakLine();
+                doc.hr();
+            }
+            else if(src is MarkdownBasic)
+            {
+                doc.p((src as MarkdownBasic)?.Content);
             }
             else
             {

@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QSoft.Markdown;
+using QSoft.Markdown.WPF;
 
 namespace WpfApp1
 {
@@ -28,6 +29,15 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+
+
+        public enum SuportTypes
+        {
+            Title,
+            HorizontalRules,
+            Paragraphs
+        }
+        //https://docs.microsoft.com/zh-tw/contribute/markdown-reference
         //https://frankbing.gitbooks.io/markdown/content/part3_9.html
         //https://markdown-it.github.io/
         //Heading  
@@ -35,11 +45,11 @@ namespace WpfApp1
 
         //--- *** ___ are split line
 
-
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.richtextbox.Document.LineHeight = 1;
+            //this.richtextbox.Document.LineHeight = 1;
+            BlockUIContainer ll = new BlockUIContainer();
+            
             //            string text = @"abcdegf  
             //ghijk  
             //yui
@@ -50,44 +60,43 @@ namespace WpfApp1
             //bb
 
             //cc";
-            string text = @"aa  
-bb
 
-cc";
-            List<(int begin, int end)> ll = new List<(int begin, int end)>();
-            //Regex br = new Regex(@"(?<a1>.*)\b\s{2}\r\n");
-            //Regex br = new Regex(@"(?<a2>\B\r\n\.*)");
-            Regex br = new Regex(@"((?<a1>.*)\b\s{2}\r\n)|(?<a2>\B\r\n\.*)");
-            var matchs = br.Matches(text);
-            int lastend = 0;
-            foreach(Match match in matchs)
-            {
-                var item = match.Groups["a1"];
-                System.Diagnostics.Trace.WriteLine($"index:{item.Index} length:{item.Length}");
-                if(ll.Count == 0)
-                {
-                    ll.Add((0, item.Length));
-                }
-                else
-                {
-                    ll.Add((item.Index,  +item.Index+item.Length));
-                }
-                lastend = match.Index + match.Length;
-            }
-            if(lastend != text.Length)
-            {
-                ll.Add((lastend, text.Length));
-            }
+            //StreamReader sr = new StreamReader("break.md");
+            //while(sr.Peek() >= 0)
+            //{
+            //    var line = sr.ReadLine();
+            //    System.Diagnostics.Trace.WriteLine(line);
+            //}
 
-            StringBuilder strb = new StringBuilder();
-            foreach(var oo in ll)
+            //return;
+
+            MarkdownReader mdr = new MarkdownReader();
+            var hr = mdr.Open(File.OpenRead("../../break.md"));
+            foreach (var oo in hr)
             {
-                string s = text.Substring(oo.begin, oo.end - oo.begin);
-                s = s.Replace("\r\n", "");
-                strb.AppendLine(s);
+                oo.ToFlowDocument(this.richtextbox.Document);
             }
-            System.Diagnostics.Trace.WriteLine(strb.ToString());
-            var splts = Regex.Split(text, @"(\s{2})", RegexOptions.Compiled);
+            return;
+            Regex m_Break1 = new Regex("  $");
+            var aa = "cccccA  A  a";
+            var match = m_Break1.IsMatch(aa);
+            Regex m_Break2 = new Regex(" {1,}^$");
+            var break2 = "a ";
+            match = m_Break2.IsMatch(break2);
+
+
+            Regex m_HorizontalRules1 = new Regex("^-{3,}$");
+            var hor1 = "---";
+            match = m_HorizontalRules1.IsMatch(hor1);
+
+            Regex m_HorizontalRules2 = new Regex("^[*]{3,}$");
+            var hor2 = "**";
+            match = m_HorizontalRules2.IsMatch(hor2);
+
+            Regex m_HorizontalRules3 = new Regex("^_{3,}$");
+            var hor3 = "___";
+            match = m_HorizontalRules3.IsMatch(hor3);
+
             return;
             //string test = "***aa****bb*";
             //Regex rg = new Regex("(?<begin>[*]{1,3})(?<value>.*?)(?<end>[*]{1,3})");
@@ -107,26 +116,26 @@ cc";
             //});
             //return;
 
-            string pattern_bold1 = @"\b[*]{2}\w+[*]{2}\b";
-            string pattern_bold = @"\b[_]{2}\w+[_]{2}\b";
-            string pattern_italic = @"\b[_]{2}\w+[_]{2}\b";
-            Regex rgx = new Regex(pattern_bold1);
-            string sentence = "__Who__ **eswrites** __these__ __notes?__";
+            //string pattern_bold1 = @"\b[*]{2}\w+[*]{2}\b";
+            //string pattern_bold = @"\b[_]{2}\w+[_]{2}\b";
+            //string pattern_italic = @"\b[_]{2}\w+[_]{2}\b";
+            //Regex rgx = new Regex(pattern_bold1);
+            //string sentence = "__Who__ **eswrites** __these__ __notes?__";
 
-            foreach (Match match in rgx.Matches(sentence))
-            {
-                Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
-            }
+            //foreach (Match match in rgx.Matches(sentence))
+            //{
+            //    Console.WriteLine("Found '{0}' at position {1}", match.Value, match.Index);
+            //}
                 
 
-            var heading = File.OpenRead("../../../md sample/heading.md");
-            MarkdownReader mr = new MarkdownReader();
-            var mds = mr.Open(heading);
-            foreach(var oo in mds)
-            {
-                oo.Heading(this.richtextbox.Document);
-            }
-            return;
+            //var heading = File.OpenRead("../../../md sample/heading.md");
+            //MarkdownReader mr = new MarkdownReader();
+            //var mds = mr.Open(heading);
+            //foreach(var oo in mds)
+            //{
+            //    oo.Heading(this.richtextbox.Document);
+            //}
+            //return;
 
             Regex m_hr1 = new Regex(@"^-{3}$");
             Regex m_hr2 = new Regex(@"^[*]{3}$");
