@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FlowDocumentEx.cs" />
+    <Compile Include="MarkdownEx.cs" />
     <Compile Include="MarkdownReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

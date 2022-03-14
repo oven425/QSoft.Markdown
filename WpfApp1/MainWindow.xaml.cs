@@ -168,6 +168,4 @@ namespace WpfApp1
 
     }
 
-    
-
 }

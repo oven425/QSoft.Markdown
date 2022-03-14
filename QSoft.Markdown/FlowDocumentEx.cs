@@ -16,7 +16,7 @@ namespace QSoft.Markdown.WPF
             BlockUIContainer hr = new BlockUIContainer();
             hr.BorderThickness = new Thickness(0, 1, 0, 0);
             hr.BorderBrush = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
-            hr.Margin = new Thickness(0, 20, 0, 20);
+            hr.Margin = new Thickness(0, 10, 0, 10);
             
             doc.Blocks.Add(hr);
         }

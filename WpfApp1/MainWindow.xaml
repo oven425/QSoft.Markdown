@@ -25,11 +25,10 @@
                     <Run FontWeight="Bold" FontStyle="Italic">FontWeight Bold FontStyle Italic</Run>
                     <Run TextDecorations="Underline">TextDecorations Underline</Run>
                 </Paragraph>
-                <BlockUIContainer BorderThickness="0,1,0,0" Margin="0,20,0,20">
+                <BlockUIContainer BorderThickness="0,1,0,0" Margin="0,10,0,10">
                     <BlockUIContainer.BorderBrush>
                         <SolidColorBrush Color="#FFCCCCCC"></SolidColorBrush>
                     </BlockUIContainer.BorderBrush>
-
                 </BlockUIContainer>
                 <List MarkerStyle="UpperLatin">
                     <ListItem>

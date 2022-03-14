@@ -1,17 +1,15 @@
-﻿using QSoft.Markdown;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
-using QSoft.Markdown.WPF;
 
-namespace WpfApp1
+namespace QSoft.Markdown.WPF
 {
     public static class MarkdownEx
     {
-        public static void Heading(this Heading src, FlowDocument doc)
+        static void Heading(this Heading src, FlowDocument doc)
         {
             switch (src.Size)
             {
@@ -20,21 +18,21 @@ namespace WpfApp1
                 case 3: { doc.H3(src.Content); } break;
                 case 4: { doc.H4(src.Content); } break;
                 case 5: { doc.H5(src.Content); } break;
-                case 6: { doc.H6(src.Content); } break;
+                case 6: default: { doc.H6(src.Content); } break;
             }
         }
 
         public static void ToFlowDocument(this MarkdownBasic src, FlowDocument doc)
         {
-            if(src is Heading)
+            if (src is Heading)
             {
                 (src as Heading)?.Heading(doc);
             }
-            else if(src is HorizontalRule)
+            else if (src is HorizontalRule)
             {
                 doc.hr();
             }
-            else if(src is MarkdownBasic)
+            else if (src is MarkdownBasic)
             {
                 doc.p((src as MarkdownBasic)?.Content);
             }
