@@ -4,16 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace QSoft.Markdown
 {
     public class MarkdownReader
     {
         Regex m_Heading = new Regex(@"^(?<size>#{1,6}?)\s{1}(?<heading>.+)?$", RegexOptions.Compiled);
-        Regex m_HorizontalRules1 = new Regex("^-{3,}$");
+        Regex m_HorizontalRules1 = new Regex("^[-]{3,}$");
         Regex m_HorizontalRules2 = new Regex("^[*]{3,}$");
-        Regex m_HorizontalRules3 = new Regex("^_{3,}$");
+        Regex m_HorizontalRules3 = new Regex("^[_]{3,}$");
         Regex m_Break1 = new Regex("  $");
         Regex m_Break2 = new Regex(" {1,}^$");
         public MarkdownReader()

@@ -10,7 +10,7 @@
     <Grid>
         <RichTextBox x:Name="richtextbox" SpellCheck.IsEnabled="False">
             <FlowDocument LineHeight="1">
-                <Paragraph FontSize="36" Foreground="#FF333333">
+                <!--<Paragraph FontSize="36" Foreground="#FF333333">
                     Heading
                 </Paragraph>
                 <Paragraph  TextDecorations="Underline">
@@ -46,7 +46,7 @@
                             It's more flexible, so you can do more things without having to write or buy new controls
                         </Paragraph>
                     </ListItem>
-                </List>
+                </List>-->
             </FlowDocument>
         </RichTextBox>
     </Grid>
